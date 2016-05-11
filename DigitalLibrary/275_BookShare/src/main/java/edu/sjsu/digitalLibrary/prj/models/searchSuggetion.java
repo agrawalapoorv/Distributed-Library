@@ -4,6 +4,15 @@ public class searchSuggetion {
 	String title;
 	String author;
 	String name;
+	String publisher;
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
 
 	public String getName() {
 		return name;

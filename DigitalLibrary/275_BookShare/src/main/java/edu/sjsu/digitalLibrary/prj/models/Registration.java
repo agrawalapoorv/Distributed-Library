@@ -165,7 +165,23 @@ public void setConfirmPassword(String confirmPassword) {
    @Column(name = "active")
    private int active;
    
-   public int getId() {
+   @Column(name = "regionid")
+   private int regionid;
+   
+   
+   public int getRegionid() {
+	return regionid;
+}
+
+public void setRegionid(int regionid) {
+	this.regionid = regionid;
+}
+
+public void setAddressUserId(String addressUserId) {
+	this.addressUserId = addressUserId;
+}
+
+public int getId() {
 		return id;
 	}
 

@@ -75,8 +75,6 @@
 							<a class="btn btn-single" href="#" data-toggle="modal" data-target="#modal-login-big" role="button">Login to make a request</a>
 					    <% }%>
 						
-						<li><a data-toggle="modal" data-target="#modal-login-big"
-						href="#">Login/Register</a></li>
 						
 					</div>
 				</div>

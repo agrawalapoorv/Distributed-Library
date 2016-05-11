@@ -24,17 +24,17 @@ public class payment implements Serializable{
     @Column(name = "cardNumber")
     private int cardNumber;
     
-    
     @Column(name = "name")
     private String name;
     
-    
     @Column(name = "cvv")
-    private int cvv;
+    private String cvv;
     
+    @Column(name = "validTillMonth")
+    private String validTillMonth;
     
-    @Column(name = "validTill")
-    private Date validTill;
+    @Column(name = "validTillYear")
+    private String validTillYear;
     
     @Column(name = "cardType")
     private String cardType;
@@ -74,24 +74,33 @@ public class payment implements Serializable{
 		this.name = name;
 	}
 
-	public int getCvv() {
+	public String getCardType() {
+		return cardType;
+	}
+
+	public String getCvv() {
 		return cvv;
 	}
 
-	public void setCvv(int cvv) {
+	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
 
-	public Date getValidTill() {
-		return validTill;
+	public String getValidTillMonth() {
+		return validTillMonth;
 	}
 
-	public void setValidTill(Date validTill) {
-		this.validTill = validTill;
+	public void setValidTillMonth(String validTillMonth) {
+		this.validTillMonth = validTillMonth;
 	}
 
-	public String getCardType() {
-		return cardType;
+
+	public String getValidTillYear() {
+		return validTillYear;
+	}
+
+	public void setValidTillYear(String validTillYear) {
+		this.validTillYear = validTillYear;
 	}
 
 	public void setCardType(String cardType) {

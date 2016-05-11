@@ -93,7 +93,7 @@ public class RequestBookController {
 	  int userID=Integer.parseInt(httpSession.getAttribute("USERID").toString());
 	  if(!sessionService.checkAuth())
     	{
-    			return "redirect:/homepage";
+    			return "redirect:/";
 
 
     	} 
@@ -132,12 +132,64 @@ public class RequestBookController {
         	
         	List<bookAvail> bookAvailDetails =new ArrayList<bookAvail>();
         	bookAvailDetails=j.getBookOrderDetails(bookID);
-        	
+        	String[] s = null;
+        	Date dTemp = new Date();
+        	String dateTempString="";
+        	TimeZone zone = TimeZone.getTimeZone("GMT-8");
+			  	DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		  		format.setTimeZone(zone);
         	for(bookAvail b : bookAvailDetails)
         	{
         		
         		System.out.println("Sub Book Id: " + b.getSubId());
         		System.out.println("Start Date: " + b.getStart_date());
+        		
+        		s = null;
+        		 dTemp = new Date();
+        		
+        		if(b.getEnd_date() == null)
+        		{
+        				Calendar c = Calendar.getInstance();
+	      			  	c.setTime(dTemp); 
+	      			  	c.add(Calendar.DATE, 1); 
+	      			  	String output = format.format(c.getTime());
+	      			  	b.setSingle_start_date(output);
+        		}
+        		else
+        		{
+        			
+        		  		s = b.getEnd_date().split(",");
+            			try {
+            				dateTempString = s[0];
+            				if(dateTempString.contains("["))
+            					dateTempString = dateTempString.replace("[", "");
+            				
+            				if(dateTempString.contains("]"))
+            					dateTempString = dateTempString.replace("]", "");
+            				
+							dTemp = format.parse(dateTempString);
+						} catch (ParseException e) {
+							
+							e.printStackTrace();
+						}
+        			
+        			  
+        			  Calendar c = Calendar.getInstance();
+        			  c.setTime(dTemp); 
+        			  c.add(Calendar.DATE, 1); 
+        			  String output = format.format(c.getTime());
+        			  
+        			  try {
+							dTemp = format.parse(output);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+        			  
+        			  b.setSingle_start_date(output);
+        		}
+        		
+        		
         		System.out.println("End Date: " + b.getEnd_date());
         	}
         	//httpSession.setAttribute("bookSearched", bookAvailDetails);
@@ -161,7 +213,7 @@ public class RequestBookController {
 	 
 	  if(!sessionService.checkAuth())
     	{
-    			return "redirect:/homepage";
+    			return "redirect:/";
 
 
     	} 
@@ -265,7 +317,19 @@ public class RequestBookController {
  
  @RequestMapping(value = "/showOrders/{userId}",method = RequestMethod.GET)
  public Object userOrders(@PathVariable int userId) throws ParseException {
-	  System.out.println("enter user order");
+	  
+	 if (!sessionService.checkAuth()) {
+		 System.out.println("invalid session: ");
+			return "redirect:/";
+
+		}
+	 if(userId != Integer.parseInt(httpSession.getAttribute("USERID").toString())){
+ 		System.out.println("Don't try to sneek other's record: ");
+ 		return "redirect:/homepage";
+ 	}
+	
+	 
+	 	System.out.println("enter user order");
 	  JPARequestBookDAO i= new JPARequestBookDAO();
 	  
 	  List<order> userOrders = i.getAllUserOrders(userId);
@@ -342,9 +406,19 @@ public class RequestBookController {
 				o = jd.getOrder(id);
 				System.out.println("orderID " + id + ", value " + value);
 
-				if(o.getCode().equals(value) && o.getActive() == 0)
-		   	 		return "Y";
-				else
+				if(o.getCode().equals(value) && o.getActive() == 0){
+		   	 		
+					SendEmail se = new SendEmail();
+					
+					JPAUserDAO jpU = new JPAUserDAO();
+					user u = jpU.getUser(o.getUserId());
+					String subject = "Order complete!";
+					String body="Dear "+u.getName()+"," + "\n\nYour order id: " +  id + " is complete. \nThanks! \nDigitalLibrary Team";
+					
+					se.sendOrderConf(u.getName(), id, u.getEmailId(), subject,body);
+					
+					return "Y";
+				}else
 					return "N";
 			}
 			else

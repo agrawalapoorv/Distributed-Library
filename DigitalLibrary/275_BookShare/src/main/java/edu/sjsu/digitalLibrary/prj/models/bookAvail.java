@@ -15,6 +15,8 @@ public class bookAvail implements Serializable {
 	
 	private int subId;
 	private String start_date;
+	private String single_start_date;
+	
 	private String end_date;
 	private int regionId;
 	private double region_long;
@@ -77,6 +79,12 @@ public class bookAvail implements Serializable {
 	}
 	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
+	}
+	public String getSingle_start_date() {
+		return single_start_date;
+	}
+	public void setSingle_start_date(String single_start_date) {
+		this.single_start_date = single_start_date;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

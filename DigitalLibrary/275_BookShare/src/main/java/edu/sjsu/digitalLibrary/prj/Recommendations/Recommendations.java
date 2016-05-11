@@ -30,7 +30,8 @@ public class Recommendations {
 		try {
 			
 			//FileSystemResource resource = new FileSystemResource("/resources/userBookData.csv");
-			DataModel model = new FileDataModel(new File("/resources/userBookData.csv"));
+			
+			DataModel model = new FileDataModel(new File("/Users/raunaqmathur/project295B/Distributed-Library/DigitalLibrary/275_BookShare/src/main/webapp/resources/MahoutData/userBookData.csv"));
 			UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
 			UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model);
 

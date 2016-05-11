@@ -78,18 +78,18 @@
 
 									<div class="form-group">
 										<label for="contain">Author</label> <input
-											class="form-control" type="text" id="author" />
+											class="form-control" type="text" id="author" style="width: 100%" />
 									</div>
 
 
 									<div class="form-group">
 										<label for="contain">Publisher</label> <input
-											class="form-control" type="text" id="publisher" />
+											class="form-control" type="text" id="publisher" style="width: 100%" />
 									</div>
 
 									<div class="form-group">
 										<label for="contain">Description</label> <input
-											class="form-control" type="text" id="description" />
+											class="form-control" type="text" id="description" style="width: 100%" />
 									</div>
 
 
@@ -195,7 +195,7 @@
 				
 					 myvar += '<div class=\'col-md-3 col-sm-4\'>'+
 					'				<div class=\'book\'>'+
-					'					<a href=\'single-book.html\'><div class=\'book-cover\'>'+
+					'					<a href=\'/Distributed-Library/showbook/'+data[i].bookId+'\'><div class=\'book-cover\'>'+
 					'							<img width=\'140\' height=\'212\' alt=\'\''+
 					'								src="'+data[i].image+'"'+
 					'								data-echo=\'assets/images/book-covers/01.jpg\'>'+
@@ -260,12 +260,67 @@
 					});
 </script>
 
+<script>
+	jQuery(document)
+			.ready(
+					function() {
+						var options = {
+
+							url : function(phrase) {
+								return "/Distributed-Library/getSearchSuggetion?searchTerm='"
+										+ $("#author").val() + "'";
+							},
+
+							getValue : function(element) {
+								return element.author;
+							},
+
+							ajaxSettings : {
+								dataType : "json",
+							},
+
+							requestDelay : 400
+						};
+						$("#author").easyAutocomplete(options);
+					});
+</script>
+
+
+<script>
+	jQuery(document)
+			.ready(
+					function() {
+						var options = {
+
+							url : function(phrase) {
+								return "/Distributed-Library/getSearchSuggetion?searchTerm='"
+										+ $("#publisher").val() + "'";
+							},
+
+							getValue : function(element) {
+								return element.publisher;
+							},
+
+							ajaxSettings : {
+								dataType : "json",
+							},
+
+							requestDelay : 400
+						};
+						$("#publisher").easyAutocomplete(options);
+						$('.form-group div').css('width','100%')
+
+					});
+</script>
 <style>
 .easy-autocomplete-container {
     left: 0;
     position: absolute;
     width: 100%;
-    z-index: 2;
+    z-index: 200;
     MARGIN-TOP: 33px;
+}
+.form-group div{
+width: 100%
 }
 </style>

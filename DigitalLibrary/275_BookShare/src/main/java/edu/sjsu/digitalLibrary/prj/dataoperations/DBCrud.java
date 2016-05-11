@@ -80,7 +80,12 @@ public class DBCrud<T> {
 			id = s.getId();
 			System.out.println("in crud order " + id);
 		}
-		
+		else if(obj instanceof payment){
+			System.out.println("in jpa of payment");
+			payment s = (payment)obj;
+			id = s.getId();
+			System.out.println("in crud payment " + id);
+		}
 		session.close();
 		s.close();
 		
@@ -687,6 +692,18 @@ public class DBCrud<T> {
 		return results;
 	}
 	
+	public List<region> getAllRegionsAJAX(){
+		List<region> r = new ArrayList<region>();
+		s = SessionFactoryObj.getSessionFactory();
+		session = s.openSession();
+		session.beginTransaction();
+		Query query = session.createSQLQuery("select * from BookShareDB.region where active='1'").addEntity(region.class);
+		r = (List<region>)query.list();
+		session.close();
+		s.close();
+		return r;
+	}
+	
 
 	
 	public void updateUserCredit(int userId,float credit)
@@ -786,5 +803,25 @@ List<utilityClass> listRC = new ArrayList<utilityClass>();
 			System.out.println("UK -" + listRC.size() );
 			return listRC;
 	 }
+	
+	@SuppressWarnings("unchecked")
+	public payment getPaymentDetails(int userId) {
+		payment result = new payment();
+		s = SessionFactoryObj.getSessionFactory();
+		session = s.openSession();
+		session.beginTransaction();
+		
+		Query query = session.createSQLQuery("select * from payment where userId=:sCode").addEntity(payment.class).setParameter("sCode", userId);
+		
+		if(query.list().size()!=0){
+			result = (payment)query.list().get(0);
+		}
+		
+		session.close();
+		s.close();		
+		
+		return result;
+	}
+	
 	
 }

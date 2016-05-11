@@ -36,13 +36,6 @@ import javax.servlet.http.HttpSession;
 
 import edu.sjsu.digitalLibrary.prj.models.LoginSamplee;
 
-
- 
-/**
- * Implementation of the encryption class
- * @author Karan
- */
-
 @SuppressWarnings("unused")
 
 public class FilterImpl implements Filter{

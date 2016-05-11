@@ -41,6 +41,7 @@ public class JPARegionDAO {
 				
 				
 				
+				
 				public int getOrderCount(int userId)
 				{
 					try {
@@ -91,6 +92,24 @@ public class JPARegionDAO {
 
 						return db.getRegionInfo(regionID);
 
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					return null;
+				}
+				
+				
+				public List<region> getAllRegionsAJAX()
+				{
+					
+					try {
+						
+						
+						DBCrud<region> db = new DBCrud<region>();
+						
+					    return db.getAllRegionsAJAX();
+						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

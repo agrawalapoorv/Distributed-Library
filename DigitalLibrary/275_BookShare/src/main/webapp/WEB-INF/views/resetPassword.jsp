@@ -5,28 +5,28 @@
 <body>
 
 <div class="container-fluid">
-	<form class="form-horizontal col-md-offset-4 col-md-4" id="resetPassword" action="resetPassword" method="post" commandName="resetpassword">		
+	<form class="form-horizontal col-md-offset-4 col-md-4" id="resetnewPassword" action="resetnewPassword" method="post" commandName="resetnewPassword">		
 		<div class="panel panel-primary">
-			<div class="panel-heading">Log In</div>
+			<div class="panel-heading">Reset password</div>
 			
 			<input name="message" id="message" value="${message}" type="hidden">
 			<input name="id" id="id" value="${id}" type="hidden">
-			<input name="flag" id="flag" value="${flag}" type="hidden">
+			<input name="flag" id="flag" value="${Flag}" type="hidden">
 			<hr>
 			<!-- Text input-->
 			<div class="form-group">
 			  <label class="col-md-3 control-label" for="textinput">New Password</label>  
 			  <div class="col-md-8">
-				  <input id="password" name="password" type="password" placeholder="Enter new password" class="form-control input-md" required=true>
+				  <input id="newPassword" name="newPassword" type="password" placeholder="Enter new newPassword" class="form-control input-md" required="true">
 				  
 			  </div>
 			</div>
 			
 			<!-- Text input-->
 			<div class="form-group">
-			  <label class="col-md-3 control-label" for="textinput">Password</label>  
+			  <label class="col-md-3 control-label" for="textinput">Confirm Password</label>  
 			  <div class="col-md-8">
-				  <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm password" class="form-control input-md" required=true>
+				  <input id="confirmnewPassword" name="confirmnewPassword" type="password" placeholder="Confirm newPassword" class="form-control input-md" required="true">
 				
 			  </div>
 			</div>
@@ -34,7 +34,7 @@
 			<div class="form-group">
 			  <label class="col-md-3 control-label" for="singlebutton"></label>
 			  <div class="col-md-8">
-			    <button id="resetPassword" name="singlebutton" class="btn btn-primary" onclick="return passwordMatch()" type="button">Reset Password</button>
+			    <button id="resetnewPassword" name="singlebutton" class="btn btn-primary" onclick="return passwordMatch()" type="button">Reset newPassword</button>
 			  </div>
 			  
 			</div>
@@ -51,29 +51,44 @@ $(document).ready(function() {
 	var flag = document.getElementById('flag').value;
 	var msg = document.getElementById('message').value;
 	var z = document.getElementById('id').value;
-
-	if(x != null && x!="" && flag=="S"){
+	
+	if(msg != null && msg!="" && flag=="S"){
 		alert(msg);
 		document.location.href="/Distributed-Library";
 	}
-	else if(x != null && x!="" && flag=="E"){
+	else if(msg!= null && msg!="" && flag=="E"){
+		alert(msg);
+		document.location.href="/Distributed-Library";
+	}else if(msg != null && msg!="" && (flag=="" || flag == null)){
 		alert(msg);
 		document.location.href="/Distributed-Library";
 	}
+	
+	event.preventDefault();
 });	
 
 	
 	function passwordMatch(){
 		
-		var enteredPassword = $("#password").val();
-		var confirmPassword = $("#confirmPassword").val();
 		
-		if(enteredPassword != confirmPassword){
-			alert("Your entered password and confirmed password should be same !\n");
-			return false;
+		
+		var enterednewPassword = document.getElementById('newPassword').value;
+		var confirmnewPassword = $("#confirmnewPassword").val();
+
+		if(enterednewPassword == "" || confirmnewPassword == ""){
+			alert("Please enter password");
 		}else{
-			document.getElementById("resetPassword").submit();
+			
+			if(enterednewPassword != confirmnewPassword){
+				alert("Your entered newPassword and confirmed newPassword should be same !\n");
+				return false;
+			}else{
+	 			document.getElementById("resetnewPassword").submit();
+			}
+			
 		}
+		
+
 		
 	}
 

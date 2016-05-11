@@ -29,15 +29,11 @@ public class Tokens implements Serializable {
 	private String token;
 	
 	@Column(name = "password")
-	private String password;
+	private String newPassword;
 
-	public String getPassword() {
-		return password;
-	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
+
 
 	public int getId() {
 		return id;
@@ -71,7 +67,13 @@ public class Tokens implements Serializable {
 		this.token = token;
 	}
 	
-	
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 	
 
 }

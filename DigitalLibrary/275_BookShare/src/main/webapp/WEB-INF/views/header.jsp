@@ -51,6 +51,12 @@
 }
 </style>
 
+<style type="text/css">
+	div#map_container{
+		width:550px;
+		height:350px;
+	}
+	</style> 
 
 
 <nav class="navbar navbar-default navbar-fixed-top"
@@ -76,7 +82,8 @@
 	<div class="navbar-header">
 
 		<button type="button" class="navbar-toggle collapsed"
-			data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+			onclick="loadmap();">
 
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 
@@ -101,27 +108,27 @@
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 		<form class="navbar-form navbar-left" role="search"
-			action="${pageContext.request.contextPath}/search" method="get" style="width: 50%">
+			action="${pageContext.request.contextPath}/search" method="get"
+			style="width: 50%">
 
 			<div class="form-group" style="width: 100%">
-				<table  style="width: 100%">
-				<tr>
-				<td  style="width: 80%">
-					<input type="text" class="form-control formClass"
-					placeholder="Search" name="searchbox" id="searchbox"  style="width: 100%" />
-				</td>
-				<td  style="width: 20%" align="right">
-				<button type="submit" class="btn btn-default"
-				style="margin-top: 12px;width: 90%">Search</button>
-				</td>
-				</tr>
+				<table style="width: 100%">
+					<tr>
+						<td style="width: 80%"><input type="text"
+							class="form-control formClass" placeholder="Search"
+							name="searchbox" id="searchbox" style="width: 100%" /></td>
+						<td style="width: 20%" align="right">
+							<button type="submit" class="btn btn-default"
+								style="margin-top: 12px; width: 90%">Search</button>
+						</td>
+					</tr>
 				</table>
-			
-				
+
+
 
 			</div>
 
-			
+
 		</form>
 		<ul class="nav navbar-nav navbar-right">
 
@@ -192,177 +199,55 @@
 <input name="activationCodeHiddenInput" id="activationCodeHiddenInput"
 	value="activationCodeHiddenInput" type="hidden">
 
- <header class="header" style="height: 50px">
+<header class="header" style="height: 50px">
 <div class="header-nav animate-dropdown" style="height: 100%">
-		<div class="container" >
-			<div class="nav-bg-class">
-				<!-- ============================================================= NAVBAR PRIMARY ============================================================= -->
-<nav class="yamm navbar navbar-primary animate-dropdown" role="navigation">
-    <div class="navbar-header">
-        <button id="btn-navbar-primary-collapse" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-primary-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div><!-- /.navbar-header -->
-    <div class="collapse navbar-collapse" id="navbar-primary-collapse">
-        <ul class="nav navbar-nav">
-       
-			<li class="hidden-sm"><a href="${pageContext.request.contextPath}/openAdvancedSearch">Advanced Search</a></li>
-            <li class="active"><a href="home.html">Books</a></li>
-            <li class="dropdown yamm-fw"><a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Textbooks</a>
-						<ul class="dropdown-menu">
-							<li>
-								<div class="yamm-content">
-									<div class="row">
-										<div class="col-md-2 col-sm-6">
-											<div class="section">
-												<h5 class="title">History</h5>
-												<ul class="links list-unstyled">
-													<li><a href="books.html">Indian Independence</a></li>
-													<li><a href="books.html">French Revolution</a></li>
-													<li><a href="books.html">Industrial Revolution</a></li>
-													<li><a href="books.html">Vietnam War</a></li>
-													<li><a href="books.html">World War I &amp; II</a></li>
-													<li><a href="books.html">Operation Desert Storm</a></li>
-												</ul>
-											</div>
-											<!-- /.section -->
-										</div>
-										<!-- /.col -->
+	<div class="container">
+		<div class="nav-bg-class">
+			<!-- ============================================================= NAVBAR PRIMARY ============================================================= -->
+			<nav class="yamm navbar navbar-primary animate-dropdown"
+				role="navigation">
+			<div class="navbar-header">
+				<button id="btn-navbar-primary-collapse" type="button"
+					class="navbar-toggle" data-toggle="collapse"
+					data-target="#navbar-primary-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- /.navbar-header -->
+			<div class="collapse navbar-collapse" id="navbar-primary-collapse">
+				<ul class="nav navbar-nav">
 
-										<div class="col-md-2 col-sm-6">
-											<div class="section">
-												<h5 class="title">Science</h5>
-												<ul class="links list-unstyled">
-													<li><a href="books.html">Applied Science</a></li>
-													<li><a href="books.html">Astronomy</a></li>
-													<li><a href="books.html">Biotechnology</a></li>
-													<li><a href="books.html">Chemistry</a></li>
-													<li><a href="books.html">Cognitive Science</a></li>
-													<li><a href="books.html">Cosmology</a></li>
-												</ul>
-											</div>
-											<!-- /.section -->
-										</div>
-										<!-- /.col -->
+					<li class="hidden-sm"><a
+						href="${pageContext.request.contextPath}/openAdvancedSearch">Advanced
+							Search</a></li>		
+							
+					<c:if test="${sessionScope.USERID != null}">
+						<li class="hidden-sm"><a
+						href="${pageContext.request.contextPath}/payment/${sessionScope.USERID}"> Payment Details </a></li>	
+						
+						<li class="hidden-sm"><a
+						href="${pageContext.request.contextPath}/showuser/${sessionScope.USERID}"> My Profile </a></li>
+						
+						<li class="hidden-sm"><a
+						href="${pageContext.request.contextPath}/showOrders/${sessionScope.USERID}"> My Orders </a></li>	
+					</c:if>			
+					
+					
+				</ul>
+				<!-- /.nav -->
+			</div>
+			<!-- /.collapse navbar-collapse --> </nav>
+			<!-- /.yamm -->
+			<!-- ============================================================= NAVBAR PRIMARY : END ============================================================= -->
+		</div>
+		<!-- /.nav-bg-class -->
+	</div>
+	<!-- /.container -->
 
-										<div class="col-md-2 col-sm-6">
-											<div class="section">
-												<h5 class="title">History</h5>
-												<ul class="links list-unstyled">
-													<li><a href="books.html">Indian Independence</a></li>
-													<li><a href="books.html">French Revolution</a></li>
-													<li><a href="books.html">Industrial Revolution</a></li>
-													<li><a href="books.html">Vietnam War</a></li>
-													<li><a href="books.html">World War I &amp; II</a></li>
-													<li><a href="books.html">Operation Desert Storm</a></li>
-												</ul>
-											</div>
-											<!-- /.section -->
-										</div>
-										<!-- /.col -->
-
-										<div class="col-md-2 col-sm-6">
-											<div class="section">
-												<h5 class="title">Science</h5>
-												<ul class="links list-unstyled">
-													<li><a href="books.html">Applied Science</a></li>
-													<li><a href="books.html">Astronomy</a></li>
-													<li><a href="books.html">Biotechnology</a></li>
-													<li><a href="books.html">Chemistry</a></li>
-													<li><a href="books.html">Cognitive Science</a></li>
-													<li><a href="books.html">Cosmology</a></li>
-												</ul>
-											</div>
-											<!-- /.section -->
-										</div>
-										<!-- /.col -->
-
-										<div class="col-md-2 col-sm-6">
-											<div class="section">
-												<h5 class="title">History</h5>
-												<ul class="links list-unstyled">
-													<li><a href="books.html">Indian Independence</a></li>
-													<li><a href="books.html">French Revolution</a></li>
-													<li><a href="books.html">Industrial Revolution</a></li>
-													<li><a href="books.html">Vietnam War</a></li>
-													<li><a href="books.html">World War I &amp; II</a></li>
-													<li><a href="books.html">Operation Desert Storm</a></li>
-												</ul>
-											</div>
-											<!-- /.section -->
-										</div>
-										<!-- /.col -->
-
-										<div class="col-md-2 col-sm-6">
-											<div class="section">
-												<h5 class="title">Science</h5>
-												<ul class="links list-unstyled">
-													<li><a href="books.html">Applied Science</a></li>
-													<li><a href="books.html">Astronomy</a></li>
-													<li><a href="books.html">Biotechnology</a></li>
-													<li><a href="books.html">Chemistry</a></li>
-													<li><a href="books.html">Cognitive Science</a></li>
-													<li><a href="books.html">Cosmology</a></li>
-												</ul>
-											</div>
-											<!-- /.section -->
-										</div>
-										<!-- /.col -->
-									</div>
-								</div>
-
-							</li>
-						</ul></li>
-             <li><a href="books.html">Nook Books</a></li>
-             <li class="hidden-sm"><a href="books.html">Audiobooks</a></li>
-             <li class="hidden-sm hidden-md"><a href="books.html">Magazines</a></li>
-             <li class="hidden-sm hidden-md"><a href="books.html">Movies</a></li>
-             <li><a href="books.html">Music</a></li>
-             <li class="dropdown navbar-right"><a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">Pages</a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <div class="yamm-content">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <ul class="links">
-                                        <li><a href="home.html">Home</a></li>
-                                        <li><a href="home-2.html">Home II</a></li>
-                                        <li><a href="books.html">Books</a></li>
-                                        <li><a href="books-2.html">Books II</a></li>
-                                        <li><a href="single-book.html">Book</a></li>
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="blog-post.html">Blog Post</a></li>
-                                    </ul>
-                                </div>
-                            <div class="col-md-6 col-sm-6">
-                                <ul class="links">
-                                    <li><a href="about.html">About</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                    <li><a href="contact-2.html">Contact II</a></li>
-                                    <li><a href="categories.html">Categories</a></li>
-                                    <li><a href="magazine.html">Magazine</a></li>
-                                    <li><a href="all-brands.html">All Brands</a></li>
-                                    <li><a href="error.html">Error</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-
-                </ul>
-             </li>
-        </ul><!-- /.nav -->
-    </div><!-- /.collapse navbar-collapse -->
-</nav><!-- /.yamm -->
-<!-- ============================================================= NAVBAR PRIMARY : END ============================================================= -->			</div><!-- /.nav-bg-class -->
-		</div><!-- /.container -->
-
-</div><!-- /.header-nav -->
-<!-- <header class="header"> <nav
+</div>
+<!-- /.header-nav --> <!-- <header class="header"> <nav
 
 class="navbar navbar-bookshop navbar-static-top" role="navigation"> -->
 
@@ -391,7 +276,7 @@ class="navbar navbar-bookshop navbar-static-top" role="navigation"> -->
 
 								In</a></li>
 
-						<li class=""><a href="#signup" data-toggle="tab">Register</a></li>
+						<li class=""><a href="#signup" id="regBtn" data-toggle="tab">Register</a></li>
 
 					</ul>
 
@@ -476,7 +361,7 @@ class="navbar navbar-bookshop navbar-static-top" role="navigation"> -->
 
 
 						<div class="tab-pane fade"
-							style="overflow-y: scroll; height: 400px;" id="signup">
+							style="overflow-y: scroll; height: 500px;" id="signup">
 
 
 
@@ -542,20 +427,6 @@ class="navbar navbar-bookshop navbar-static-top" role="navigation"> -->
 
 									<div id="categoryDiv">
 
-										<!-- <select id="category" name="category" multiple="multiple" style="width:346px; height:38px;">
-
-<option value="1">Option 1</option>
-
-<option value="2">Option 2</option>
-
-<option value="3">Option 3</option>
-
-<option value="4">Option 4</option>
-
-<option value="5">Option 5</option>
-
-</select> -->
-
 									</div>
 
 								</div>
@@ -569,8 +440,7 @@ class="navbar navbar-bookshop navbar-static-top" role="navigation"> -->
 										member previously joined</label> <input type="email"
 										class="form-control bookshop-form-control" id="parentId"
 										name="parentId"
-										placeholder="Enter email of Family member previously joined"
-										>
+										placeholder="Enter email of Family member previously joined">
 
 
 
@@ -796,6 +666,30 @@ required="true"> -->
 
 								</div>
 
+								<button id="singlebutton" name="singlebutton"
+									class="btn btn-primary btn-uppercase" type="button"
+									onclick="resize();">Select Region</button>
+
+			
+								<div class="form-group" style="display: none;" id ="map-div">
+									<jsp:include page="map.jsp"></jsp:include>
+								</div>
+
+
+<div>&nbsp;</div>
+
+								<div class="form-group">
+
+									<label for="selectedRegion" class="sr-only">Selected
+										Region</label> <input type="text"
+										class="form-control bookshop-form-control" id="selectedRegion"
+										name="selectedRegion" placeholder="Region" required="true"
+										readonly="readonly" value=""> <input type="hidden"
+										id="selectedRegionId" />
+
+
+								</div>
+
 
 
 
@@ -806,6 +700,7 @@ required="true"> -->
 								<!-- <button type="button" class="btn btn-primary btn-uppercase">Login</button> -->
 
 								<!-- <a href="#" class='forgot-password'>forgot password</a> -->
+
 
 							</form>
 
@@ -1216,7 +1111,16 @@ required="true"> -->
 												errorMessage += "Your entered password and confirmed password should be same !\n";
 
 											}
+											var regionId = $(
 
+											"#selectedRegionId").val();
+											console.log($("#selectedRegionId").val());
+										
+											if (regionId == "") {
+
+												errorMessage += "Select the region !\n";
+
+											}
 											if (errorMessage != "") {
 
 												alert(errorMessage);
@@ -1280,6 +1184,11 @@ required="true"> -->
 												signupData["confirmPassword"] = $(
 
 												"#confirmPassword")
+
+												.val();
+												signupData["regionId"] = $(
+
+												"#selectedRegionId")
 
 												.val();
 
@@ -1348,10 +1257,16 @@ required="true"> -->
 			complete : function(data) {
 
 				location.reload(true);
+				
+				document.location.href="/Distributed-Library";
 
 			}
+		
+		
 
 		})
+		
+		event.PreventDefault();
 
 	}
 
@@ -1481,3 +1396,227 @@ required="true"> -->
 						$("#searchbox").easyAutocomplete(options);
 					});
 </script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDakgiM9LXXqxtfMUSobwfzdc4ztIjyvZ0"></script>
+
+<script>
+   
+
+      // In the following example, markers appear when the user clicks on the map.
+      // Each marker is labeled with a single alphabetical character.
+   
+      
+      function initialize(mylocation) {
+    	  
+    	
+    	 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    	      var labelIndex = 0;
+    	      var markers= [];
+    	  
+        var santaclara = {  lat: 37.35410789999999,lng: -121.95523559999998};
+        //37.3541° N, 121.9552° W -- santa clara
+        var sjsu = {lat: 37.338208,lng: -121.886329};
+        //37.3352° N, 121.8811° W -- sjsu
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: mylocation
+        });
+       // addMarker(santaclara, map);
+       // addMarker(sjsu, map);
+         var geocoder = new google.maps.Geocoder();
+        var address = $("#street").val()+" "+$("#aptNo").val()+" "+$("#city").val()+" "+$("#state").val()+" "+$("#zipcode").val();
+		var myloc;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+
+          if (status == google.maps.GeocoderStatus.OK) {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+             myloc = {lat: latitude,lng: longitude};
+            var image = {
+            	    url: 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/48/Map-Marker-Bubble-Chartreuse-icon.png',
+            	    // This marker is 20 pixels wide by 32 pixels high.
+            	    //size: new google.maps.Size(20, 32),
+            	    // The origin for this image is (0, 0).
+            	    origin: new google.maps.Point(0, 0),
+            	    // The anchor for this image is the base of the flagpole at (0, 32).
+            	    anchor: new google.maps.Point(0, 32)
+            	  };
+            addMarkerImg(myloc, map,image);
+
+          }
+        });
+  $.ajax({
+  			url : '/Distributed-Library/getAllRegionsAJAX',
+  			data : {
+  				city : $("#city").val()
+  			},
+  			error : function() {
+  				$('#info').html('<p>An error has occurred</p>');
+  			},
+  			dataType : 'json',
+  			success : function(data) {
+  				 var loc = [];
+  				for(var i=0;i<data.length;i++){
+  					console.log(data[i].longitude);
+  					console.log(data[i].id);
+  					console.log(data[i].latitude);
+  					console.log(data[i].name);
+  			        loc.push({  lat: data[i].longitude,lng: data[i].latitude});
+  			        addMarker(loc[i], map,data[i].name,data[i].id);
+  			      
+
+  				}
+  				map.markers = markers;
+			     // alert(map.markers.length);
+			      for(var i=0;i<map.markers.length; i++ ) {
+			      //alert(getDistance(myloc,markers[i].position));
+			      }
+  			}
+  			});
+
+      
+       
+      // Adds a marker to the map.
+      function addMarker(location, map,name,id) {
+        // Add the marker at the clicked location, and add the next-available label
+        // from the array of alphabetical characters.
+        var name = name;
+        var id = id;
+        var marker = new google.maps.Marker({
+          position: location,
+          label: labels[labelIndex++ % labels.length],
+          map: map
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: "Selected"
+          });
+        marker.addListener('click', function() {
+        	console.log(name);
+				$("#selectedRegion").val(name);
+				$("#selectedRegionId").val(id);
+
+				
+        });
+        markers.push(marker);
+
+      }
+      function addMarkerImg(location, map,image) {
+          // Add the marker at the clicked location, and add the next-available label
+          // from the array of alphabetical characters.
+          var marker = new google.maps.Marker({
+            position: location,
+            label: labels[labelIndex++ % labels.length],
+            map: map,
+            icon: image
+          });
+          
+         // markers.push(marker);
+
+        }
+      
+//         // This event listener calls addMarker() when the map is clicked.
+//         google.maps.event.addListener(map, 'click', function (event){
+//           var lat = event.latLng.lat();
+//           var lng = event.latLng.lng();
+//           var R = 6371; // radius of earth in km
+//           var distances = [];
+//           var closest = -1;
+//           map.markers = markers;
+//           for( i=0;i<map.markers.length; i++ ) {
+//               var mlat = map.markers[i].position.lat();
+//               var mlng = map.markers[i].position.lng();
+//               var dLat  = rad(mlat - lat);
+//               var dLong = rad(mlng - lng);
+//               var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+//                   Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+//               var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//               var d = R * c;
+//               distances[i] = d;
+//               if ( closest == -1 || d < distances[closest] ) {
+//                   closest = i;
+//               }
+//           }
+//           alert(map.markers[closest].label);
+//         });
+        function rad(x) {return x*Math.PI/180;}
+
+        // Add a marker at the center of the map.
+        
+        google.maps.event.addDomListener(document.getElementById('regBtn'), 'click', initialize);
+//         google.maps.event.addListenerOnce(map, 'idle', function() {
+//         	   google.maps.event.trigger(map, 'resize');
+//         	});
+
+  }
+      
+      var rad = function(x) {
+    	  return x * Math.PI / 180;
+    	};
+
+    	
+    	var getDistance = function(p1, p2) {
+    		console.log(p1);
+    		console.log(p2);
+    	  var R = 6378137; // Earths mean radius in meter
+    	  var dLat = rad(p2.lat() - p1.lat);
+    	  var dLong = rad(p2.lng() - p1.lng);
+    	  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    	    Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat())) *
+    	    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    	  var d = R * c;
+    	  return d/1000; // returns the distance in meter
+    	};
+    	
+      function resize(){
+    	  $("#selectedRegionId").val("");
+    	  $("#selectedRegionId").val("");
+    		 $("#map-div").hide(1000);
+    	  $.ajax({
+    			url : '/Distributed-Library/validateAddressAJAX',
+    			data : {
+    				 	street1:$("#street").val(),
+    	  				street2:$("#aptNo").val(),
+						city:	$("#city").val(),
+						state: 	$("#state").val(),
+						country:$("#country").val(),
+						zipcode:$("#zip").val()
+    			},
+    			error : function(e) {
+    				console.log(e);
+    			},
+    			success : function(data) {
+    			
+
+    					if(data == 'Y'){
+    						 $("#map-div").show(1000);
+    	    				 $('#map-div div').css('width','250px');
+    	    				 $('#map-div div').css('heigth','250px');
+    				         var geocoder = new google.maps.Geocoder();
+
+    						 var address = $("#street").val()+" "+$("#aptNo").val()+" "+$("#city").val()+" "+$("#state").val()+" "+$("#zipcode").val();
+    					  		var myloc1;
+    					          geocoder.geocode( { 'address': address}, function(results, status) {
+    					        	  var latitude = results[0].geometry.location.lat();
+    					              var longitude = results[0].geometry.location.lng();
+    					        	  myloc = {lat: latitude,lng: longitude};
+    					        	  initialize(myloc);
+    					          });
+    						  
+    					}
+    					else{
+    						alert("Please enter the valid address");
+    					}
+    				}
+    			
+    			
+    			});
+    	
+//window.fireEvent('resize');
+      }
+     
+      //window.addEvent();
+      
+      
+      
+    </script>

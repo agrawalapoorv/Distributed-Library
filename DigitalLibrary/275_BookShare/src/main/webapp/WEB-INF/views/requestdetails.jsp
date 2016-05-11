@@ -1,15 +1,17 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="edu.sjsu.digitalLibrary.prj.models.bookAvail" %>
-<jsp:include page="navbar.jsp"></jsp:include>
+<jsp:include page="header.jsp"></jsp:include>
 
 <html>
-<head>
-	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.2.min.js"></script>
+<!-- <head> -->
+	<!-- <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
   
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+   -->
+   
 	<style type="text/css">
 	div#map_container{
 		width:550px;
@@ -145,26 +147,34 @@ function chooseBook(){
 		
       		
 	</script>
-</head>
+<!-- </head> -->
 
 <body>
 
 <div class="container-fluid" style="margin-top:15px"> <br/>
 		<div class="row-fluid">
 			<div class="container-fluid"> 
+			
+			
 			 <% if(null != request.getAttribute("bookAvailDetails")) {%> 
-				<c:forEach items="${bookAvailDetails}" var="bookAvail" varStatus="i"> 
-          			<div class="col-md-2">
-          			              <a class="btn btn-primary"  href="#" onClick="changeMap(${bookAvail.subId}, ${bookAvail.region_long}, ${bookAvail.region_lat});" role="button" > ${bookAvail.getRegion_name()} </a>
-          						<input type="hidden" id="${bookAvail.subId}Start" value="${bookAvail.start_date}"></input>
-          						<input type="hidden" id="${bookAvail.subId}End" value="${bookAvail.end_date}"></input>
+			 
+					<div class="dropdown">
+					   <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Available regions (Along with book availability start date)
+					   <span class="caret"></span></button>
+					   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+					    <c:forEach items="${bookAvailDetails}" var="bookAvail" varStatus="i">
+					    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onClick="changeMap(${bookAvail.subId}, ${bookAvail.region_long}, ${bookAvail.region_lat});">${bookAvail.getRegion_name()} [Available from: ${bookAvail.getSingle_start_date()}] </a></li>
+					    <input type="hidden" id="${bookAvail.subId}Start" value="${bookAvail.start_date}"></input>
+					    <input type="hidden" id="${bookAvail.subId}End" value="${bookAvail.end_date}"></input>
+					    </c:forEach>  
+					  </ul>
 					</div>
-				</c:forEach>
+
 				 <% } else
 					 
 				 {%> 
 				 <label>No Availability</label>
-				  <% }%> 
+			<% }%> 
 			</div>
 		</div>
 </div>
@@ -184,4 +194,19 @@ function chooseBook(){
 </div>
     				
 </body>
+
+<script>
+
+ $(function(){
+
+    $(".dropdown-menu li a").click(function(){
+
+      $("#menu1:first-child").html($(this).text()+' <span class="caret"></span>');
+      $("#menu1:first-child").val($(this).text());
+
+   });
+
+});
+
+</script>
 </html>

@@ -106,5 +106,13 @@ private String country;
 private String zipcode;
 private String userPassword;
 private String confirmPassword;
+private int regionId;
+public int getRegionId() {
+	return regionId;
+}
+public void setRegionId(int regionId) {
+	this.regionId = regionId;
+}
+
 
 }

@@ -374,7 +374,7 @@ public class MongoCrud {
 		java.util.List<MongoBook> searchedBooks = new java.util.ArrayList<MongoBook>();
 		dbCollection = db.getCollection("book");
 
-		Pattern regex = Pattern.compile(searchString);
+		Pattern regex = Pattern.compile(searchString,  Pattern.CASE_INSENSITIVE);
 		BasicDBObject query = null;
 		query = new BasicDBObject("title", regex);
 		BasicDBObject image = null;
@@ -433,6 +433,24 @@ public class MongoCrud {
 				else
 					mTemp.setIsbn("");
 
+				if (object.containsField("categories")) {
+					java.util.List<String> categories = (java.util.List<String>) object.get("categories");
+					mTemp.setCategories(categories);
+					if (categories.size() > 0) {
+						mTemp.setSingleCategory(categories.get(0));
+					} else if (categories.size() == 0) {
+						mTemp.setSingleCategory("");
+					}
+				} else {
+					mTemp.setCategories(null);
+					mTemp.setSingleCategory("");
+				}
+
+				if (object.containsField("authors"))
+					mTemp.setAuthors((java.util.List<String>) object.get("authors"));
+				else
+					mTemp.setAuthors(null);
+				
 				searchedBooks.add(mTemp);
 			}
 		} finally {
@@ -622,6 +640,24 @@ public class MongoCrud {
 				else
 					mTemp.setIsbn("");
 
+				if (object.containsField("categories")) {
+					java.util.List<String> categories1 = (java.util.List<String>) object.get("categories");
+					mTemp.setCategories(categories1);
+					if (categories1.size() > 0) {
+						mTemp.setSingleCategory(categories1.get(0));
+					} else if (categories1.size() == 0) {
+						mTemp.setSingleCategory("");
+					}
+				} else {
+					mTemp.setCategories(null);
+					mTemp.setSingleCategory("");
+				}
+
+				if (object.containsField("authors"))
+					mTemp.setAuthors((java.util.List<String>) object.get("authors"));
+				else
+					mTemp.setAuthors(null);
+				
 				searchedBooks.add(mTemp);
 			}
 		} finally {
@@ -663,7 +699,23 @@ public class MongoCrud {
 					mTemp.setIsbn(object.get("isbn").toString());
 				else
 					mTemp.setIsbn("");
+				if (object.containsField("categories")) {
+					java.util.List<String> categories = (java.util.List<String>) object.get("categories");
+					mTemp.setCategories(categories);
+					if (categories.size() > 0) {
+						mTemp.setSingleCategory(categories.get(0));
+					} else if (categories.size() == 0) {
+						mTemp.setSingleCategory("");
+					}
+				} else {
+					mTemp.setCategories(null);
+					mTemp.setSingleCategory("");
+				}
 
+				if (object.containsField("authors"))
+					mTemp.setAuthors((java.util.List<String>) object.get("authors"));
+				else
+					mTemp.setAuthors(null);
 			}
 		} finally {
 			cursor.close();
@@ -752,6 +804,12 @@ public class MongoCrud {
 			objBooks = new JSONObject();
 			Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
 			s.setName(volumeInfo.getTitle());
+			if(volumeInfo.getAuthors()!=null)
+				s.setAuthor(volumeInfo.getAuthors().get(0));
+			else
+				s.setAuthor("");
+			s.setPublisher(volumeInfo.getPublisher());
+
 			searchlist.add(s);
 		}
 		return searchlist;
@@ -932,16 +990,16 @@ public class MongoCrud {
 		// }
 		// Pattern regexCategories = Pattern.compile(auth);
 		BasicDBObject query = new BasicDBObject();
-		if (auth != "ALL")
+		if (!auth.equals("") &&  auth!=null)
 			query = new BasicDBObject("authors", regexAuth);
 
-		if (publisher != "ALL")
+		if (!publisher.equals("") &&  publisher!=null)
 			query.put("publisher", regexPublisher);
 
-		if (desc != "ALL")
+		if (!desc.equals("") &&  desc!=null)
 			query.put("description", regexDesc);
 
-		if (desc != "ALL")
+		if (!title.equals("") &&  title!=null)
 			query.put("title", regexTitle);
 
 		System.out.println("query is:" + query);

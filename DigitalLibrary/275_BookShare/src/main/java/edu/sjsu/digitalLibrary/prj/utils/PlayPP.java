@@ -4,10 +4,6 @@ package edu.sjsu.digitalLibrary.prj.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
  
-/**
- * Implementation of the encryption class
- * @author Karan
- */
 
 public class PlayPP {
 

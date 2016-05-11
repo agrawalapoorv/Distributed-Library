@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="true"%>
 <%@ page import="edu.sjsu.digitalLibrary.prj.models.MongoBook" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%-- <jsp:include page="imports.jsp" /> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -264,12 +265,14 @@
 						</div>
 						<!-- /.divider -->
 
-						<!-- ============================================== Recommendation for user (if logged in) ============================================== -->
+						<!-- ============================================== Recommendation for user ============================================== -->
+						
+						<c:if test="${fn:length(recommendedForYou) gt 0}">
 						<section class="best-seller wow fadeInUp">
 						<div id="best-seller" class="module">
 							<div class="module-heading home-page-module-heading">
 								<h2 class="module-title home-page-module-title">
-									<span>Books recommended for ${sessionScope.USERNAME}</span>
+									<span>Trending Books</span>
 								</h2>
 							</div>
 							<!-- /.module-heading -->
@@ -284,11 +287,10 @@
 												<a href="single-book.html">
 													<div class="book-cover">
 														<img width="140" height="212" alt=""
-															src="${recommendedBook.getImage()}"
-															>
-														<div class="tag">
-															<span>sale</span>
-														</div>
+															src="${recommendedBook.getImage()}">
+<!-- 														<div class="tag"> -->
+<!-- 															<span>sale</span> -->
+<!-- 														</div> -->
 													</div>
 												</a>
 												<div class="book-details clearfix">
@@ -302,15 +304,7 @@
 															   </c:forEach>
 														</p>
 													</div>
-													<div class="text-center">
-														<div class="actions">
-															<span class="book-price price">$0.0</span>
-															<div class="cart-action">
-<!-- 																<a class="add-to-cart" title="Add to Cart" -->
-<!-- 																	href="javascript:void(0);">Add to Cart</a> -->
-															</div>
-														</div>
-													</div>
+						
 												</div>
 											</div>
 										</div>
@@ -320,15 +314,18 @@
 							</div>
 						</div>
 						</section>
+						</c:if>
 						<!-- ============================================== BEST SELLER : END ============================================== -->
 						
 						
 						<!-- ============================================== BEST SELLER (Trending books)============================================== -->
+						
+						<c:if test="${fn:length(recommCatBooks) gt 0}">
 						<section class="best-seller wow fadeInUp">
 						<div id="best-seller" class="module">
 							<div class="module-heading home-page-module-heading">
 								<h2 class="module-title home-page-module-title">
-									<span>Trending books</span>
+									<span>Inspired By ${sessionScope.USERNAME}'s shopping trends</span>
 								</h2>
 							</div>
 							<!-- /.module-heading -->
@@ -337,13 +334,13 @@
 									<div class="clearfix text-center">
 									
 									
-									<c:forEach items="${recommendedForYou}" var="recommendedBook">
+									<c:forEach items="${recommCatBooks}" var="recommCatBooks">
 								        <div class="col-md-3 col-sm-6">
 											<div class="book">
 												<a href="single-book.html">
 													<div class="book-cover">
 														<img width="140" height="212" alt=""
-															src="${recommendedBook.getImage()}"
+															src="${recommCatBooks.getImage()}"
 															>
 														<div class="tag">
 															<span>sale</span>
@@ -353,23 +350,15 @@
 												<div class="book-details clearfix">
 													<div class="book-description">
 														<h3 class="book-title">
-															<a href="${pageContext.request.contextPath}/showbook/${recommendedBook.getBookId()}">${recommendedBook.title}</a>
+															<a href="${pageContext.request.contextPath}/showbook/${recommCatBooks.getBookId()}">${recommCatBooks.title}</a>
 														</h3>
 														<p class="book-subtitle">
-															by <c:forEach var="authorValue" items="${recommendedBook.getAuthors()}">
+															by <c:forEach var="authorValue" items="${recommCatBooks.getAuthors()}">
 																	<a href="#">${authorValue}</a><br>
 															   </c:forEach>
 														</p>
 													</div>
-													<div class="text-center">
-														<div class="actions">
-															<span class="book-price price">$0.0</span>
-															<div class="cart-action">
-																<a class="add-to-cart" title="Add to Cart"
-																	href="javascript:void(0);">Add to Cart</a>
-															</div>
-														</div>
-													</div>
+											
 												</div>
 											</div>
 										</div>
@@ -379,6 +368,7 @@
 							</div>
 						</div>
 						</section>
+						</c:if>
 						<!-- ============================================== BEST SELLER : END ============================================== -->
 					</div>
 					<!-- /.container -->
@@ -755,7 +745,8 @@
 						</div>
 					</div>
 					</section>
-
+	<div id="map">
+								</div>
 					<!-- ============================================== FROM BLOG ============================================== -->
 					<section class="blog wow fadeInUp">
 					<div id="blog" class="module container">

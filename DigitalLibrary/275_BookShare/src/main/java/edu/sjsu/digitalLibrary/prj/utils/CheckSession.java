@@ -23,11 +23,7 @@ import javax.servlet.http.HttpSession;
 import edu.sjsu.digitalLibrary.prj.models.LoginSamplee;
 
 
- 
-/**
- * Implementation of the encryption class
- * @author Karan
- */
+
 
 @SuppressWarnings("unused")
 @Service("sessionService")

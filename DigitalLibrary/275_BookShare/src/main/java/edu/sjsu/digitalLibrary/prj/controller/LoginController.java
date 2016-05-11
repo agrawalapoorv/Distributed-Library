@@ -112,7 +112,7 @@ public class LoginController {
     	try{
     		
     		System.out.println(tokenModel.getUserid());
-        	System.out.println(tokenModel.getPassword());
+        	System.out.println(tokenModel.getNewPassword());
         	System.out.println(tokenModel.getId());
         	
         	
@@ -120,7 +120,7 @@ public class LoginController {
         	tokenDao.delete(tokenModel);
         	
         	JPAUserDAO userDAO = new JPAUserDAO();
-        	userDAO.updateUserPassword(tokenModel.getUserid(), PlayPP.sha1(tokenModel.getPassword()));
+        	userDAO.updateUserPassword(tokenModel.getUserid(), PlayPP.sha1(tokenModel.getNewPassword()));
         	
         	ModelAndView model = new ModelAndView();
 
@@ -258,7 +258,8 @@ public class LoginController {
     			
     			message.setText("Dear "+username+"," +
     					"\n\nHere is Your link to change your password (Expires in two hours) " +
-    					"http://localhost:8080/Distributed-Library/resetpassword/"+result.getInt("userid")+"/"+token);
+    					"http://localhost:8080/Distributed-Library/resetpassword/"+result.getInt("userid")+"/"+token+
+    					"\n\nRegards,\n\nDigital Book Share Team\n\nPLEASE DO NOT REPLY TO THIS EMAIL");
 
     			Transport.send(message);
 
@@ -325,17 +326,13 @@ try {
             		JPAUserDAO jp = new JPAUserDAO();
             		System.out.println("Welcome sir: " + l);
             		loginModel.setId(l);
-            		httpSession.setAttribute("USERID", loginModel.getId());
-            		user tempUser = jp.getUser(loginModel.getId());
+            		httpSession.setAttribute("USERID", l);
+            		user tempUser = jp.getUser(l);
             		httpSession.setAttribute("USERNAME", tempUser.getName());
             		sessionService.setHttpSession(httpSession);
             		System.out.println("my userid in session is" + httpSession.getAttribute("USERID"));
-            		
-
-            		
-            		/////check for recommendations
-            		
-            		
+	
+          
             		JPABookDAO bookTemp = new JPABookDAO();
             		
             		int orderCount = bookTemp.getOrderCount(loginModel.getId());
@@ -361,6 +358,7 @@ try {
             		
             		for(int i=0;i<userbasedRecommBookIds.size();i++){
             			MongoBook bookDetails =  bookTemp.searchBooksInDBByID(String.valueOf(userbasedRecommBookIds.get(i)));
+            			System.out.println("author:" + bookDetails.getAuthors().size());
             			recommendedForYou.add(bookDetails);
             		}
             		
@@ -391,71 +389,6 @@ try {
         }
 	}
     
-//    @RequestMapping(value = "/login1",method = RequestMethod.POST)
-//    public ModelAndView recieveCategory(@ModelAttribute("logindetails")LoginSamplee loginModel1, BindingResult bindingResult, 
-//            HttpServletRequest request,  HttpServletResponse response) 
-//    {
-//        try {
-//        	
-//        	String msg=null;
-//        	
-//           if(loginModel1.getUserEmail().equals(null) || loginModel1.getUserEmail().isEmpty())
-//           {
-//        	ModelAndView model = new ModelAndView();
-//        	loginModel = new LoginSamplee();
-//           	model.addObject("msg", "Invalid user email and password combination");
-//           	model.addObject("logindetails", loginModel);
-//          	model.setViewName("login"); 
-//           }
-//           
-//        	else {
-//            	JPALoginDAO obj= new JPALoginDAO();
-//            	loginModel1.setPassword(PlayPP.sha1(loginModel1.getPassword()));
-//            	loginModel1.setPassword(loginModel1.getPassword());
-//            	int l =obj.validate(loginModel1);
-//            	
-//            	ModelAndView model = new ModelAndView();
-//            	if(l == 0) {
-//	            	loginModel = new LoginSamplee();
-//	            	model.addObject("msg", "Invalid user email and password combination");
-//	            	model.addObject("logindetails", loginModel);
-//	           	 	model.setViewName("login");
-//            	} else {
-//            		JPAUserDAO jp = new JPAUserDAO();
-//            		
-//            		loginModel1.setId(l);
-//            		httpSession.setAttribute("USERID", loginModel1.getId());
-//            		user tempUser = jp.getUser(loginModel1.getId());
-//            		httpSession.setAttribute("USERNAME", tempUser.getName());
-//            		sessionService.setHttpSession(httpSession);
-//            		System.out.println("my userid in session is" + httpSession.getAttribute("USERID"));
-//            		//MongoCrud m = new MongoCrud();
-//            		return new ModelAndView("redirect:/");
-//            	}
-//           	 	return model;
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Exception in FirstController "+e.getMessage());
-//            e.printStackTrace();
-//            return new ModelAndView("error404");
-//        }
-//		return null;
-//    }
-    
-    /*@RequestMapping(value = "/logout",method = RequestMethod.GET)
-    public ModelAndView logoutPage(HttpServletRequest request,  HttpServletResponse response) {
-    	httpSession = sessionService.getHttpSession();
-    	httpSession.removeAttribute("USERID");
-    	httpSession.removeAttribute("USERNAME");
-    	httpSession.invalidate();
-    	sessionService.setHttpSession(null);
-    	System.out.println("in logot");
-    	loginModel = new LoginSamplee();
-    	response.setHeader("Cache-Control","no-cache");
-    	response.setHeader("Cache-Control","no-store");
-    	response.setDateHeader("Expires", 0);
-        return new ModelAndView("login", "logindetails", loginModel);
-    }*/
     
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/logout",method = RequestMethod.GET)

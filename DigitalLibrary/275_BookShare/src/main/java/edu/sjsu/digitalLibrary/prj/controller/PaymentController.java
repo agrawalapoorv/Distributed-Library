@@ -64,6 +64,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 
+
+
+
 import com.fasterxml.jackson.annotation.JsonView;
 
 import edu.sjsu.digitalLibrary.prj.dao.*;
@@ -77,6 +80,7 @@ import edu.sjsu.digitalLibrary.prj.models.LandingPage;
 import edu.sjsu.digitalLibrary.prj.models.LoginSamplee;
 import edu.sjsu.digitalLibrary.prj.models.category;
 import edu.sjsu.digitalLibrary.prj.models.internalCategory;
+import edu.sjsu.digitalLibrary.prj.models.payment;
 import edu.sjsu.digitalLibrary.prj.models.user;
 import edu.sjsu.digitalLibrary.prj.utils.CheckSession;
 import edu.sjsu.digitalLibrary.prj.utils.PlayPP;
@@ -85,7 +89,7 @@ import edu.sjsu.digitalLibrary.prjservices.SearchServiceImpl;
  
 @SuppressWarnings("unused")
 @Controller
-public class BookController {
+public class PaymentController {
 
     int passwordDiff = 0;
     //private internalCategory homepageModel;
@@ -107,8 +111,8 @@ public class BookController {
    	
    	private SearchServiceImpl searchService= new SearchServiceImpl();
    	
-    @RequestMapping(value = "/showbook/{bookId}",method = RequestMethod.GET)
-    public Object showBook(@PathVariable int bookId, HttpServletRequest request) {
+    @RequestMapping(value = "/payment/{userId}",method = RequestMethod.GET)
+    public Object paymentGet(@PathVariable int userId, HttpServletRequest request) {
     	if (!sessionService.checkAuth()) {
 			
     		System.out.println("Invalid session");
@@ -116,48 +120,74 @@ public class BookController {
 			return "redirect:/";
 
 		}
-    	ModelAndView mv = new ModelAndView();
-    	System.out.println("book id here:" + bookId);
-    	bookModel = searchService.searchBooksInDBByID(bookId + "");
     	
-    	System.out.println("Book User ID: " +bookModel.getPublisher() );
-		System.out.println("going: " +bookModel.getCategories().size() );
-		httpSession.setAttribute("isbn", bookModel.getIsbn());
-        mv.addObject("bookdetails", bookModel);
-        RequestBookController n= new RequestBookController();
-        boolean pFlag=false;
-        int userId=Integer.parseInt(httpSession.getAttribute("USERID").toString());
-        if(null != httpSession.getAttribute("USERID"))
-        {
-        	pFlag=n.checkUserPaymentDetails(userId);
-        }
-       
-        mv.addObject("checkUserPayment",pFlag);
-        //mv.addObject("addressdetails", "101 E San Fernando, Apt#320, San Jose, CA, 95134");
-        mv.setViewName("showbook");
+    	if(userId != Integer.parseInt(httpSession.getAttribute("USERID").toString())){
+    		System.out.println("Don't try to sneek other's record");
+    		return "redirect:/";
+    	}
+    	
+    	ModelAndView mv = new ModelAndView();
+    	JPAPaymentDAO jpPy = new JPAPaymentDAO();
+    	payment py = jpPy.get(userId);
+    	
+    	if(py == null)
+    		py = new payment();
+    	
+        mv.addObject("paymentDetails",py);
+        
+        mv.setViewName("payment");
         
        return mv;
     }
     
     
-    @RequestMapping(value = "/convertToParentBook/{bookId}",method = RequestMethod.GET)
-    public Object convertToParentBook(@PathVariable int bookId) {
+    
+    @RequestMapping(value = "/payment",method = RequestMethod.POST)
+    public Object paymentPost(@ModelAttribute("paymentDetails")payment
+    		payment, HttpServletRequest request) {
     	
-    	//ModelAndView mv = new ModelAndView();
+    	System.out.println("hereeee");
     	
-    	return "redirect:/showbook/" + getParentBook(bookId);
-       
+    	if (!sessionService.checkAuth()) {
+			
+    		System.out.println("Invalid session");
+
+			return "redirect:/";
+
+		}
+    	int userId = Integer.parseInt(httpSession.getAttribute("USERID").toString());
+    	
+    	
+    	ModelAndView mv = new ModelAndView();
+    	JPAPaymentDAO jpPy = new JPAPaymentDAO();
+    	payment py = jpPy.get(userId);
+    	
+    	
+    	if(py == null)
+    	{
+    		//py = new payment();
+    		jpPy.insert(payment);
+    		mv.addObject("paymentDetails",payment);
+    	}
+    	else{
+	    	py.setCardNumber(payment.getCardNumber());
+	    	py.setCardType(payment.getCardType());
+	    	py.setCvv(payment.getCvv());
+	    	py.setName(payment.getName());
+	    	py.setValidTillMonth(payment.getValidTillMonth());
+	    	py.setValidTillYear(payment.getValidTillYear());
+	    	py.setActive(1);
+	    	jpPy.update(py);
+	    	mv.addObject("paymentDetails",py);
+    	}
+    	
+    	
+        
+        
+        mv.setViewName("payment");
+        
+       return mv;
     }
     
- 
     
-    public int getParentBook( int bookId) {
-    	
-    	
-    	JPABookDAO j = new JPABookDAO();
-    	int parentId = j.getBookParentId(bookId);
-    	
-    	return parentId;
-       
-    }
 }
